@@ -13,17 +13,24 @@ final class TableViewModel: ViewModel {
   
   var onError: ((String) -> ())?
   var onUpdating: ((Bool) -> ())?
+  var onSelect: ((Repository) -> ())?
   
   var items: [CellRepresentable] = []
   
   func reloadData() {
     onUpdating?(true)
-    items = (1...31).map { ItemViewModel(title: "Item #\($0)") }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) { self.onUpdating?(false) }
+    GitHubTrendingService.getTrendingRepositories(language: "swift") { data, error in
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        if let error = error { self.onError?(error.localizedDescription) }
+        self.items = data?.map { RepositoryViewModel(repo: $0) } ?? []
+        self.onUpdating?(false)
+      }
+    }
   }
   
   func didSelect(at indexPath: IndexPath) {
-    
+    guard let i = items[indexPath.row] as? RepositoryViewModel else { return }
+    onSelect?(i.model)
   }
   
 }

@@ -21,7 +21,7 @@ class WebViewController: ViewController {
   private lazy var webView: WKWebView = {
     var webView = WKWebView()
     webView.navigationDelegate = self
-    webView.isMultipleTouchEnabled = false
+    webView.isMultipleTouchEnabled = true
     webView.translatesAutoresizingMaskIntoConstraints = false
     return webView
   }()
@@ -57,10 +57,7 @@ class WebViewController: ViewController {
   
   override func setActivityIndication(_ active: Bool, animated: Bool = true) {
     super.setActivityIndication(active, animated: animated)
-    UIView.animate(withDuration: active ? 0 : 0.33) {
-      self.webView.alpha = active ? 0 : 1
-      self.title = active ? "Загрузка..." : self.webView.title
-    }
+    self.title = active ? "Loading..." : self.webView.title
   }
   
 }
@@ -78,14 +75,14 @@ extension WebViewController: WKNavigationDelegate {
   
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     setActivityIndication(false)
-    presentAlert(withTitle: "Ошибка", message: error.localizedDescription) {
+    presentAlert(withTitle: "Error", message: error.localizedDescription) {
       self.dismiss(animated: true, completion: nil)
     }
   }
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     setActivityIndication(false)
-    presentAlert(withTitle: "Ошибка", message: error.localizedDescription) {
+    presentAlert(withTitle: "Error", message: error.localizedDescription) {
       self.dismiss(animated: true, completion: nil)
     }
   }
@@ -129,14 +126,28 @@ extension WebViewController {
     let webVC = WebViewController()
     webVC.url = url
     webVC.completionHanler = completionHandler
-    let modalNC = NavigationController()
-    modalNC.setViewControllers([webVC], animated: false)
     if presentPanModal {
-      presenter.presentPanModal(modalNC)
+      presenter.presentPanModal(webVC)
     } else {
+      let modalNC = NavigationController()
+      modalNC.setViewControllers([webVC], animated: false)
       modalNC.modalPresentationStyle = .overFullScreen
       presenter.present(modalNC, animated: true, completion: nil)
     }
   }
   
+}
+
+extension WebViewController: PanModalPresentable {
+  var panScrollable: UIScrollView? {
+    return nil
+  }
+  
+  var longFormHeight: PanModal.PanModalHeight {
+    return .maxHeightWithTopInset(view.safeAreaInsets.top + 15)
+  }
+  
+  var cornerRadius: CGFloat {
+    return 20
+  }
 }

@@ -26,14 +26,24 @@ class TableViewController: ViewController, StoryboardInstantiable {
   
   override func setup() {
     super.setup()
+    
     tableView.dataSource = self
     tableView.delegate = self
     tableView.tableFooterView = UIView()
-    ItemViewModel.registerCell(tableView: tableView)
+    
+    let r = UIRefreshControl()
+    r.addTarget(self, action: #selector(handleRefreshAction(_:)), for: .primaryActionTriggered)
+    tableView.refreshControl = r
+    
     title = String(describing: Self.self)
   }
   
   func bindViewModel() {
+    viewModel.onSelect = { [weak self] repo in
+      guard let self = self else { return }
+      WebViewController.open(url: repo.url, from: self, presentPanModal: true, completionHandler: nil)
+    }
+    
     viewModel.onError = { [weak self] error in
       guard let self = self else { return }
       self.presentAlert(withTitle: "Error", message: error)
@@ -42,7 +52,11 @@ class TableViewController: ViewController, StoryboardInstantiable {
     viewModel.onUpdating = { [weak self] updating in
       guard let self = self else { return }
       self.setActivityIndication(updating)
-      if !updating { self.tableView.reloadData() }
+      
+      if !updating {
+        self.tableView.reloadData()
+        self.tableView.refreshControl?.endRefreshing()
+      }
     }
   }
 
@@ -70,5 +84,13 @@ extension TableViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     viewModel.didSelect(at: indexPath)
     tableView.deselectRow(at: indexPath, animated: true)
+  }
+}
+
+// MARK: Private
+
+extension TableViewController {
+  @objc func handleRefreshAction(_ sender: Any) {
+    viewModel.reloadData()
   }
 }
