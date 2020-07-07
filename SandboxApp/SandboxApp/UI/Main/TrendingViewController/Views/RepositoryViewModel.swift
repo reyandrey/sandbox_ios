@@ -31,7 +31,7 @@ extension RepositoryViewModel {
   }
   
   var languageColor: UIColor {
-    return UIColor(hex: model.languageColor)!
+    return UIColor(hex: model.languageColor) ?? UIColor.clear
   }
   
   var starsTotal: String {

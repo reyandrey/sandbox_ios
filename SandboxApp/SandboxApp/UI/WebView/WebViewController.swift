@@ -34,10 +34,15 @@ class WebViewController: ViewController {
   
   override func setup() {
     super.setup()
-    view.backgroundColor = .white
+    view.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.1176470588, blue: 0.1176470588, alpha: 1)
+    webView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.1176470588, blue: 0.1176470588, alpha: 1)
+    webView.isOpaque = false
     let doneItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneDidTap(_:)))
-    doneItem.tintColor = .darkText
+    let shareItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(share(_:)))
+    doneItem.tintColor = .systemGreen
+    shareItem.tintColor = #colorLiteral(red: 0.2549019608, green: 0.6117647059, blue: 1, alpha: 1)
     navigationItem.setRightBarButton(doneItem, animated: false)
+    navigationItem.setLeftBarButton(shareItem, animated: false)
     view.addSubview(webView)
   }
   
@@ -58,7 +63,7 @@ class WebViewController: ViewController {
   
   override func setActivityIndication(_ active: Bool, animated: Bool = true) {
     super.setActivityIndication(active, animated: animated)
-    self.title = active ? "Loading..." : self.webView.title
+    self.title = active ? "Loading..." : url.host ?? "Web"
   }
   
 }
@@ -78,14 +83,12 @@ extension WebViewController: WKNavigationDelegate {
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     setActivityIndication(false)
     presentAlert(withTitle: "Error", message: error.localizedDescription) {
-      self.dismiss(animated: true, completion: nil)
     }
   }
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     setActivityIndication(false)
     presentAlert(withTitle: "Error", message: error.localizedDescription) {
-      self.dismiss(animated: true, completion: nil)
     }
   }
 }
@@ -118,6 +121,25 @@ private extension WebViewController {
     dismiss(animated: true, completion: completionHanler)
   }
   
+  @objc func share(_ sender:UIView) {
+    //UIGraphicsBeginImageContext(webView.frame.size)
+    //webView.layer.render(in: UIGraphicsGetCurrentContext()!)
+    //let snapshot = UIGraphicsGetImageFromCurrentImageContext()
+    //UIGraphicsEndImageContext()
+    //let urlString = webView.url?.absoluteString ?? "<empty>"
+    if let url = webView.url {
+      //      let objectsToShare = [urlString, url, snapshot ?? #imageLiteral(resourceName: "app-logo")] as [Any]
+      let objectsToShare = [url]
+      let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+      
+      //Excluded Activities
+      //activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+      
+      activityVC.popoverPresentationController?.sourceView = sender
+      self.present(activityVC, animated: true, completion: nil)
+    }
+  }
+  
 }
 
 // MARK: Static
@@ -128,11 +150,11 @@ extension WebViewController {
     let webVC = WebViewController()
     webVC.url = url
     webVC.completionHanler = completionHandler
+    let modalNC = NavigationController()
+    modalNC.setViewControllers([webVC], animated: false)
     if presentPanModal {
-      presenter.presentPanModal(webVC)
+      presenter.presentPanModal(modalNC)
     } else {
-      let modalNC = NavigationController()
-      modalNC.setViewControllers([webVC], animated: false)
       modalNC.modalPresentationStyle = .overFullScreen
       presenter.present(modalNC, animated: true, completion: nil)
     }
@@ -146,7 +168,7 @@ extension WebViewController: PanModalPresentable {
   }
   
   var longFormHeight: PanModal.PanModalHeight {
-    return .maxHeightWithTopInset(view.safeAreaInsets.top + 44)
+    return .maxHeight
   }
   
   var cornerRadius: CGFloat {

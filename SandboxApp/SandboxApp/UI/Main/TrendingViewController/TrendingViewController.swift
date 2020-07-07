@@ -8,13 +8,22 @@
 
 import UIKit
 
-class TableViewController: ViewController, StoryboardInstantiable {
+fileprivate typealias PeriodType = TrendingViewModel.PeriodType
+
+class TrendingViewController: ViewController, StoryboardInstantiable {
 
   // MARK: Properties
   
-  var viewModel: TableViewModel!
+  var viewModel: TrendingViewModel!
   
   @IBOutlet private weak var tableView: UITableView!
+  
+  lazy var segmentedControl: UISegmentedControl = {
+    let s = UISegmentedControl(items: PeriodType.titleItems)
+    s.selectedSegmentIndex = viewModel.since.rawValue
+    s.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+    return s
+  }()
   
   // MARK: ViewController
   
@@ -22,6 +31,11 @@ class TableViewController: ViewController, StoryboardInstantiable {
     super.viewDidLoad()
     bindViewModel()
     viewModel.reloadData()
+  }
+  
+  override func setActivityIndication(_ active: Bool, animated: Bool = true) {
+    super.setActivityIndication(active, animated: animated)
+    segmentedControl.isEnabled = !active
   }
   
   override func setup() {
@@ -34,7 +48,8 @@ class TableViewController: ViewController, StoryboardInstantiable {
     let r = UIRefreshControl()
     r.addTarget(self, action: #selector(handleRefreshAction(_:)), for: .primaryActionTriggered)
     tableView.refreshControl = r
-    
+    navigationItem.titleView = segmentedControl
+    navigationItem.largeTitleDisplayMode = .always
     title = String(describing: Self.self)
   }
   
@@ -59,12 +74,16 @@ class TableViewController: ViewController, StoryboardInstantiable {
       }
     }
   }
+  
+  @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+    viewModel.since = PeriodType(rawValue: sender.selectedSegmentIndex) ?? PeriodType.daily
+  }
 
 }
 
 // MARK: UITableViewDataSource
 
-extension TableViewController: UITableViewDataSource {
+extension TrendingViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
@@ -80,7 +99,7 @@ extension TableViewController: UITableViewDataSource {
 
 // MARK: UITableViewDelegate
 
-extension TableViewController: UITableViewDelegate {
+extension TrendingViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     viewModel.didSelect(at: indexPath)
     tableView.deselectRow(at: indexPath, animated: true)
@@ -89,7 +108,7 @@ extension TableViewController: UITableViewDelegate {
 
 // MARK: Private
 
-extension TableViewController {
+extension TrendingViewController {
   @objc func handleRefreshAction(_ sender: Any) {
     viewModel.reloadData()
   }

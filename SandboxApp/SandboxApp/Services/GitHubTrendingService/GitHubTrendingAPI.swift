@@ -9,8 +9,8 @@
 import Foundation
 
 enum GitHubTrendingAPI {
-  case trendingRepositories(language: String, since: String)
-  case trendingDevelopers(language: String, since: String)
+  case trendingRepositories(language: String?, since: String)
+  case trendingDevelopers(language: String?, since: String)
   case languages
 }
 

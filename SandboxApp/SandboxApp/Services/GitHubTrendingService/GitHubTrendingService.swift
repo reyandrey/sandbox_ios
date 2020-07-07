@@ -11,13 +11,9 @@ import SwiftyJSON
 import SwiftHTTP
 
 class GitHubTrendingService {
-  
-  enum PeriodType: String {
-    case daily, weekly, monthly
-  }
-  
-  static func getTrendingRepositories(language: String, since: PeriodType = .monthly, completionHandler: @escaping (([Repository]?, Error?) -> ())) {
-    let target = GitHubTrendingAPI.trendingRepositories(language: language, since: since.rawValue)
+
+  static func getTrendingRepositories(language: String?, since: String, completionHandler: @escaping (([Repository]?, Error?) -> ())) {
+    let target = GitHubTrendingAPI.trendingRepositories(language: language, since: since)
     let url = target.baseURL.appendingPathComponent(target.path)
     
     HTTP.GET(url.absoluteString, parameters: target.parameters, headers: target.headers) { result in
@@ -25,6 +21,5 @@ class GitHubTrendingService {
       completionHandler(repos, repos == nil ? (result.error ?? "Empty response") : nil)
     }
   }
-  
   
 }

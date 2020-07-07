@@ -17,8 +17,8 @@ final class MainCoordinator: BaseCoordinator {
   }
   
   override func start() {
-    let vc = try! TableViewController(storyboard: "Main")
-    vc.viewModel = TableViewModel()
+    let vc = try! TrendingViewController(storyboard: "Main")
+    vc.viewModel = TrendingViewModel()
     navigationController.setViewControllers([vc], animated: true)
   }
 }

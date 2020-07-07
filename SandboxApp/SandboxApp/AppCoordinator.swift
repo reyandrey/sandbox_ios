@@ -38,8 +38,9 @@ private extension AppCoordinator {
   
   func setAppearance() {
     let navBarAppearance = UINavigationBar.appearance()
-    navBarAppearance.tintColor = .darkText
+    navBarAppearance.barStyle = .blackTranslucent
+    navBarAppearance.tintColor = .lightGray
     navBarAppearance.isTranslucent = true
-    navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.darkText]
+    navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
   }
 }

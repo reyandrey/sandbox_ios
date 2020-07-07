@@ -8,8 +8,32 @@
 
 import UIKit
 
-final class TableViewModel: ViewModel {
+final class TrendingViewModel: ViewModel {
   typealias ErrorType = String
+  
+  enum PeriodType: Int, CaseIterable {
+    case daily, weekly, monthly
+    
+    static var titleItems: [String] {
+      return Self.allCases.map { $0.title }
+    }
+    
+    var title: String {
+      return value.capitalized
+    }
+    
+    var value: String {
+      switch self {
+      case .daily: return "daily"
+      case .weekly: return "weekly"
+      case .monthly: return "monthly"
+      }
+    }
+  }
+  
+  var since: PeriodType = .weekly {
+    didSet { reloadData() }
+  }
   
   var onError: ((String) -> ())?
   var onUpdating: ((Bool) -> ())?
@@ -19,7 +43,7 @@ final class TableViewModel: ViewModel {
   
   func reloadData() {
     onUpdating?(true)
-    GitHubTrendingService.getTrendingRepositories(language: "swift") { data, error in
+    GitHubTrendingService.getTrendingRepositories(language: nil, since: self.since.value) { data, error in
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         if let error = error { self.onError?(error.localizedDescription) }
         self.items = data?.map { RepositoryViewModel(repo: $0) } ?? []
