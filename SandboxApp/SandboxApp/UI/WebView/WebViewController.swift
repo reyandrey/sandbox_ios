@@ -21,7 +21,8 @@ class WebViewController: ViewController {
   private lazy var webView: WKWebView = {
     var webView = WKWebView()
     webView.navigationDelegate = self
-    webView.isMultipleTouchEnabled = true
+    webView.allowsBackForwardNavigationGestures = true
+    webView.isMultipleTouchEnabled = false
     webView.translatesAutoresizingMaskIntoConstraints = false
     return webView
   }()
@@ -66,11 +67,12 @@ class WebViewController: ViewController {
 
 extension WebViewController: WKNavigationDelegate {
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    setActivityIndication(false)
+    print(#function)
+    setActivityIndication(false, animated: true)
   }
   
   func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-    setActivityIndication(true)
+    setActivityIndication(true, animated: true)
   }
   
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -144,10 +146,10 @@ extension WebViewController: PanModalPresentable {
   }
   
   var longFormHeight: PanModal.PanModalHeight {
-    return .maxHeightWithTopInset(view.safeAreaInsets.top + 15)
+    return .maxHeightWithTopInset(view.safeAreaInsets.top + 44)
   }
   
   var cornerRadius: CGFloat {
-    return 20
+    return 16
   }
 }

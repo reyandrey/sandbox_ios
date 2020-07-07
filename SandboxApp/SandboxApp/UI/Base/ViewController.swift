@@ -11,27 +11,21 @@ import SnapKit
 
 class ViewController: UIViewController {
   private lazy var activityView: UIView = {
-    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     let v = UIView()
+    v.backgroundColor = .white
     v.isUserInteractionEnabled = false
     
     let l = UILabel()
     l.textColor = .darkText
     l.font = .systemFont(ofSize: 12, weight: .medium)
-    l.text = "Загрузка..."
+    l.text = "Загрузка"
     
     let a = UIActivityIndicatorView(style: .gray)
-    a.layer.cornerRadius = 10
     a.hidesWhenStopped = false
     a.startAnimating()
     
-    v.addSubview(blurView)
     v.addSubview(a)
     v.addSubview(l)
-    
-    blurView.snp.makeConstraints { m in
-      m.edges.equalToSuperview()
-    }
     
     l.snp.makeConstraints { m in
       m.center.equalToSuperview()
@@ -39,7 +33,7 @@ class ViewController: UIViewController {
     
     a.snp.makeConstraints { m in
       m.centerX.equalTo(l.snp.centerX)
-      m.bottom.equalTo(l.snp.top).offset(-12)
+      m.bottom.equalTo(l.snp.top).offset(-10)
     }
     
     return v
