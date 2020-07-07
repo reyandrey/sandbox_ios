@@ -1,0 +1,5 @@
+github "SnapKit/SnapKit" "5.0.1"
+github "SwiftyJSON/SwiftyJSON" "4.3.0"
+github "daltoniam/SwiftHTTP" "3.0.1"
+github "evgenyneu/keychain-swift" "19.0.0"
+github "slackhq/PanModal" "1.2.7"

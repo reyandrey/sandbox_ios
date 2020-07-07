@@ -1,0 +1,10 @@
+{
+  "commitish" : "1.2.7",
+  "iOS" : [
+    {
+      "name" : "PanModal",
+      "hash" : "9cd25add5790886ebb1d97653f6e0eb7ff151999df8f64ea03ada287a39bf0b9",
+      "swiftToolchainVersion" : "5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)"
+    }
+  ]
+}

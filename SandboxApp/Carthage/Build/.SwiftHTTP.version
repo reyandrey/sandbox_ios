@@ -1,0 +1,10 @@
+{
+  "commitish" : "3.0.1",
+  "iOS" : [
+    {
+      "name" : "SwiftHTTP",
+      "hash" : "9960574d6b0253e0d4e44a7406e3776c20127e64b9bbd912c888943ebb81ccf0",
+      "swiftToolchainVersion" : "5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)"
+    }
+  ]
+}
