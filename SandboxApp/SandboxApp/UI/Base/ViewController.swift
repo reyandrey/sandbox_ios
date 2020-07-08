@@ -12,15 +12,15 @@ import SnapKit
 class ViewController: UIViewController {
   private lazy var activityView: UIView = {
     let v = UIView()
-    v.backgroundColor = .white
+    v.backgroundColor = UIColor(hex: "#040810")
     v.isUserInteractionEnabled = false
     
     let l = UILabel()
-    l.textColor = .darkText
+    l.textColor = .white
     l.font = .systemFont(ofSize: 12, weight: .medium)
     l.text = "Загрузка"
     
-    let a = UIActivityIndicatorView(style: .gray)
+    let a = UIActivityIndicatorView(style: .white)
     a.hidesWhenStopped = false
     a.startAnimating()
     
@@ -61,7 +61,6 @@ class ViewController: UIViewController {
   }
   
   open func setup() {
-    
   }
   
 }

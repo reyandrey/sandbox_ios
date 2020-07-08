@@ -40,7 +40,7 @@ class TrendingViewController: ViewController, StoryboardInstantiable {
   
   override func setup() {
     super.setup()
-    
+    view.backgroundColor = UIColor(hex: "#040810")
     tableView.dataSource = self
     tableView.delegate = self
     tableView.tableFooterView = UIView()
@@ -49,8 +49,8 @@ class TrendingViewController: ViewController, StoryboardInstantiable {
     r.addTarget(self, action: #selector(handleRefreshAction(_:)), for: .primaryActionTriggered)
     tableView.refreshControl = r
     navigationItem.titleView = segmentedControl
-    navigationItem.largeTitleDisplayMode = .always
-    title = String(describing: Self.self)
+    navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.0006932450342, green: 0.007819609717, blue: 0.04820142686, alpha: 1)//UIColor(hex: "#040810")
+
   }
   
   func bindViewModel() {
