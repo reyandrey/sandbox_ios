@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551FE87624B544DB00C75D4E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551FE87524B544DB00C75D4E /* Int+Extensions.swift */; };
 		555DFCC524B457F5009FD9D7 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555DFCC324B457F5009FD9D7 /* KeychainSwift.framework */; };
 		555DFCC724B457F5009FD9D7 /* PanModal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555DFCC424B457F5009FD9D7 /* PanModal.framework */; };
 		555DFCCB24B4624C009FD9D7 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DFCCA24B4624C009FD9D7 /* Log.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		551FE87524B544DB00C75D4E /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		555DFCC324B457F5009FD9D7 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
 		555DFCC424B457F5009FD9D7 /* PanModal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PanModal.framework; path = Carthage/Build/iOS/PanModal.framework; sourceTree = "<group>"; };
 		555DFCCA24B4624C009FD9D7 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				555DFCDA24B46774009FD9D7 /* UIResponder+Extensions.swift */,
 				555DFCDE24B467CD009FD9D7 /* UIView+Extensions.swift */,
 				559B532E24B5005500CA9B7A /* UIColor+Extensions.swift */,
+				551FE87524B544DB00C75D4E /* Int+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				559B532324B4808600CA9B7A /* RepositoryViewModel.swift in Sources */,
 				555DFCDF24B467CD009FD9D7 /* UIView+Extensions.swift in Sources */,
 				559B532D24B4E71900CA9B7A /* GitHubTrendingAPI.swift in Sources */,
+				551FE87624B544DB00C75D4E /* Int+Extensions.swift in Sources */,
 				559B531224B46EE400CA9B7A /* NavigationController.swift in Sources */,
 				559B531A24B4707800CA9B7A /* ImageCell.swift in Sources */,
 				555DFCE324B46A0C009FD9D7 /* UILabel+Extensions.swift in Sources */,

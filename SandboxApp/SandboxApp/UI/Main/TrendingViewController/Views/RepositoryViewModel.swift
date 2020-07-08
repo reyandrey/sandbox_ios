@@ -35,11 +35,11 @@ extension RepositoryViewModel {
   }
   
   var starsTotal: String {
-    return "\(model.stars)"
+    return "\(model.stars.kFormatted())"
   }
   
   var starsNew: String {
-    return "+\(model.currentPeriodStars)"
+    return "+\(model.currentPeriodStars.kFormatted())"
   }
 }
 
